@@ -1,0 +1,10 @@
+backend/node_modules/
+frontend/my-ecommerce/node_modules/
+frontend/my-ecommerce/dist/
+frontend/my-ecommerce/dist-ssr/
+
+*.log
+*.out.log
+*.err.log
+
+.DS_Store

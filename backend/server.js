@@ -11,6 +11,7 @@ const Product = require('./models/Product')
 const Order = require('./models/Order')
 const Review = require('./models/Review')
 const { protect, adminOnly } = require('./middleware/authMiddleware')
+const { getShoppingAssistantReply } = require('./services/shoppingAssistant')
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -182,6 +183,26 @@ app.get('/api/products/:id', async (req, res) => {
     })
   } catch (error) {
     res.status(500).json({ message: 'Server error.' })
+  }
+})
+
+app.post('/api/chatbot/message', async (req, res) => {
+  try {
+    const { message, history = [] } = req.body
+
+    if (!String(message || '').trim()) {
+      return res.status(400).json({ message: 'A chat message is required.' })
+    }
+
+    const reply = await getShoppingAssistantReply({
+      message: String(message).trim(),
+      history: Array.isArray(history) ? history : [],
+    })
+
+    res.json(reply)
+  } catch (error) {
+    console.error('Chatbot error:', error.message)
+    res.status(500).json({ message: 'Failed to generate a shopping recommendation.' })
   }
 })
 
@@ -530,15 +551,33 @@ app.put('/api/profile', protect, async (req, res) => {
 
 app.delete('/api/products/:id', protect, adminOnly, async (req, res) => {
   try {
-    const product = await Product.deleteById(req.params.id)
+    const id = req.params.id;
 
+    // Check if product exists
+    const product = await Product.findById(id);
     if (!product) {
-      return res.status(404).json({ message: 'Product not found.' })
+      return res.status(404).json({ message: 'Product not found.' });
     }
 
-    res.json({ message: 'Product deleted successfully.' })
+    // Check for referencing order items
+    const orderItemsCountResult = await Order.pool.query(
+      'SELECT COUNT(*) as count FROM order_items WHERE product_id = $1',
+      [id]
+    );
+    const orderItemsCount = parseInt(orderItemsCountResult.rows[0].count);
+
+    if (orderItemsCount > 0) {
+      return res.status(409).json({ 
+        message: `Cannot delete product. It is referenced in ${orderItemsCount} order${orderItemsCount === 1 ? '' : 's'}.` 
+      });
+    }
+
+    // Safe to delete
+    await Product.deleteById(id);
+    res.json({ message: 'Product deleted successfully.' });
   } catch (error) {
-    res.status(500).json({ message: 'Server error.' })
+    console.error('Delete product error:', error);
+    res.status(500).json({ message: 'Server error: ' + error.message });
   }
 })
 

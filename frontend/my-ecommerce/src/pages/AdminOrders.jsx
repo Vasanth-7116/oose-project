@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import api from '../lib/api'
 import { getAuthConfig } from '../lib/auth'
+import { formatCurrency } from '../lib/currency'
 
 const paymentStatusOptions = [
   { value: 'pending', label: 'Payment Pending' },
@@ -147,11 +148,11 @@ function AdminOrders() {
                           <div>
                             <p className="font-semibold text-slate-900">{item.productName}</p>
                             <p className="text-sm text-slate-500">
-                              Qty {item.quantity} x ${Number(item.unitPrice).toFixed(2)}
+                              Qty {item.quantity} x {formatCurrency(item.unitPrice)}
                             </p>
                           </div>
                         </div>
-                        <p className="font-semibold text-slate-900">${Number(item.lineTotal).toFixed(2)}</p>
+                        <p className="font-semibold text-slate-900">{formatCurrency(item.lineTotal)}</p>
                       </div>
                     ))}
                   </div>
@@ -188,7 +189,7 @@ function AdminOrders() {
                       {order.shippingAddress.country}
                     </p>
                     <p className="mt-4 text-base font-semibold text-slate-950">
-                      Total: ${Number(order.total).toFixed(2)}
+                      Total: {formatCurrency(order.total)}
                     </p>
                   </aside>
                 </div>

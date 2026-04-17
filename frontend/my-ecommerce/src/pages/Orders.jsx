@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import api from '../lib/api'
 import { getAuthConfig } from '../lib/auth'
+import { formatCurrency } from '../lib/currency'
 
 const TRACKING_REFRESH_MS = 15000
 
@@ -184,7 +185,7 @@ function Orders() {
                         Total
                       </p>
                       <p className="mt-1 text-xl font-bold text-slate-950">
-                        ${Number(order.total).toFixed(2)}
+                        {formatCurrency(order.total)}
                       </p>
                     </div>
                   </div>
@@ -205,12 +206,12 @@ function Orders() {
                             <div>
                               <p className="font-semibold text-slate-900">{item.productName}</p>
                               <p className="text-sm text-slate-500">
-                                Qty {item.quantity} x ${Number(item.unitPrice).toFixed(2)}
+                                Qty {item.quantity} x {formatCurrency(item.unitPrice)}
                               </p>
                             </div>
                           </div>
                           <p className="font-semibold text-slate-900">
-                            ${Number(item.lineTotal).toFixed(2)}
+                            {formatCurrency(item.lineTotal)}
                           </p>
                         </div>
                       ))}

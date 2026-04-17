@@ -112,7 +112,7 @@ function AdminAdd() {
 
           <div>
             <label htmlFor="product-price" className="mb-2 block text-sm font-medium text-slate-700">
-              Price
+              Price (INR)
             </label>
             <input
               id="product-price"

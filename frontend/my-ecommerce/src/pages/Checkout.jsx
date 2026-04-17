@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../lib/api'
 import { getAuthConfig, getStoredUser } from '../lib/auth'
+import { formatCurrency } from '../lib/currency'
 
 function Checkout({ cartItems, onOrderPlaced }) {
   const navigate = useNavigate()
@@ -244,13 +245,13 @@ function Checkout({ cartItems, onOrderPlaced }) {
                   <p className="text-slate-500">Qty {item.quantity}</p>
                 </div>
                 <span className="font-semibold text-slate-800">
-                  ${(Number(item.price) * Number(item.quantity)).toFixed(2)}
+                  {formatCurrency(Number(item.price) * Number(item.quantity))}
                 </span>
               </div>
             ))}
           </div>
           <div className="mt-6 border-t border-slate-200 pt-4 text-base font-semibold text-slate-950">
-            Total: ${subtotal.toFixed(2)}
+            Total: {formatCurrency(subtotal)}
           </div>
           <p className="mt-3 text-sm text-slate-500">
             Payment: {formData.paymentMethod === 'cod' ? 'Cash on Delivery' : formData.paymentMethod.toUpperCase()}

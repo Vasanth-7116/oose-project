@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import heroImg from '../assets/hero.png'
+import { formatCurrency } from '../lib/currency'
 
 function Cart({ cartItems, onClearCart, onRemoveFromCart, onUpdateQuantity }) {
   const subtotal = cartItems.reduce(
@@ -56,7 +57,7 @@ function Cart({ cartItems, onClearCart, onRemoveFromCart, onUpdateQuantity }) {
                           {item.name}
                         </h3>
                         <p className="mt-1 text-sm font-medium text-slate-600">
-                          ${Number(item.price).toFixed(2)} each
+                          {formatCurrency(item.price)} each
                         </p>
                         <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-2 py-1">
                           <button
@@ -100,7 +101,7 @@ function Cart({ cartItems, onClearCart, onRemoveFromCart, onUpdateQuantity }) {
               </div>
               <div className="mt-3 flex items-center justify-between border-b border-slate-200 pb-5 text-base font-semibold text-slate-950">
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>{formatCurrency(subtotal)}</span>
               </div>
 
               <div className="mt-6 space-y-3">

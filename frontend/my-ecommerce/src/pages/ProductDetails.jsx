@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api from '../lib/api'
 import { getAuthConfig, getStoredUser } from '../lib/auth'
+import { formatCurrency } from '../lib/currency'
 
 function ProductDetails({ onAddToCart, canAddToCart = true }) {
   const { id } = useParams()
@@ -107,7 +108,7 @@ function ProductDetails({ onAddToCart, canAddToCart = true }) {
               {product.name}
             </h1>
             <p className="mt-4 text-2xl font-bold text-slate-900">
-              ${Number(product.price).toFixed(2)}
+              {formatCurrency(product.price)}
             </p>
             <p className="mt-3 text-sm font-medium text-slate-500">
               {Number(product.averageRating).toFixed(1)} rating | {product.reviewCount} reviews

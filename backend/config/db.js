@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const { Pool } = require('pg')
 
 const databaseUrl = process.env.DATABASE_URL
@@ -90,6 +92,13 @@ const initializeSchema = async () => {
     ADD COLUMN IF NOT EXISTS current_lng NUMERIC(9, 6),
     ADD COLUMN IF NOT EXISTS tracking_message TEXT NOT NULL DEFAULT 'Order placed',
     ADD COLUMN IF NOT EXISTS tracking_updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP;
+  `)
+
+  await pool.query(`
+    ALTER TABLE orders
+    ALTER COLUMN payment_status TYPE VARCHAR(30),
+    ALTER COLUMN payment_reference TYPE VARCHAR(120),
+    ALTER COLUMN payment_notes TYPE TEXT;
   `)
 
   await pool.query(`

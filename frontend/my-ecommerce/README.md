@@ -26,6 +26,15 @@ Create a `.env` file in this folder if you want to override the API base URL:
 VITE_API_BASE_URL=http://localhost:5000
 ```
 
+The shopping assistant calls the backend. To enable a free LLM-backed chatbot, add these variables to `backend/.env`:
+
+```env
+HF_API_TOKEN=your_huggingface_token
+HF_CHAT_MODEL=google/gemma-2-2b-it
+```
+
+If `HF_API_TOKEN` is not set, the assistant still works with a local recommendation fallback based on your catalog, price, rating, and keyword matching.
+
 ## Notes
 
 - The frontend expects the backend API to be running.

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../lib/api'
 import { getAuthConfig } from '../lib/auth'
+import { formatCurrency } from '../lib/currency'
 
 const sampleImageUrls = [
   'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80',
@@ -104,8 +105,9 @@ function AdminManage() {
       setSuccessMessage('Product deleted successfully.')
     } catch (requestError) {
       setError(
-        requestError.response?.data?.message ||
-          'Failed to delete product. Please try again.',
+        requestError.response?.data?.message || 
+        requestError.message ||
+        'Failed to delete product. Please try again.',
       )
     }
   }
@@ -218,7 +220,7 @@ function AdminManage() {
                 value={editFormData.price}
                 onChange={handleEditChange}
                 required
-                placeholder="Price"
+                placeholder="Price in INR"
                 className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 outline-none transition focus:border-slate-900"
               />
 
@@ -336,7 +338,7 @@ function AdminManage() {
                       {product.name}
                     </h3>
                     <p className="mt-1 text-sm font-medium text-slate-600">
-                      ${Number(product.price).toFixed(2)}
+                      {formatCurrency(product.price)}
                     </p>
                     <p className="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700">
                       {product.category} | {product.stock} in stock

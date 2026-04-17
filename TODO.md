@@ -1,8 +1,14 @@
-# Payment Confirmation Server Error Fix Progress
+# Fix Shopping Assistant "Failed to generate" error for "best ratings" query
 
-**✅ 1. Analyzed files & identified root cause**: PostgreSQL type inference failure in Order.submitPaymentConfirmation SQL.  
-**✅ 2. Confirmed plan**: Add explicit casts like prior admin updateStatus fix.  
+## Steps:
+- [x] Create TODO.md with plan tracking
+- [ ] Create backend/seedReviews.js with sample reviews
+- [ ] Update backend/services/shoppingAssistant.js (add rating intent logic)
+- [ ] Run `node backend/seedProducts.js`
+- [ ] Run `node backend/seedReviews.js` 
+- [ ] Restart backend server
+- [ ] Test chatbot "Which product has the best ratings?" shows top rated products
+- [ ] Complete task
 
-**✅ 4. Test submission**: Restart server first (below). Error persists → need logs.  
-**🔄 5. Add logging & retest**  
-**6. Complete**
+Current status: Starting implementation.
+

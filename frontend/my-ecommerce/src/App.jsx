@@ -16,6 +16,7 @@ import ProductDetails from './pages/ProductDetails'
 import Products from './pages/Products'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
+import ShoppingAssistant from './components/ShoppingAssistant'
 import { getStoredUser } from './lib/auth'
 
 const CART_STORAGE_KEY = 'my-ecommerce-cart'
@@ -393,6 +394,13 @@ function App() {
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      {!isAdmin ? (
+        <ShoppingAssistant
+          onAddToCart={handleAddToCart}
+          canAddToCart={!isAdmin}
+        />
+      ) : null}
     </div>
   )
 }

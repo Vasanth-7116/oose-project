@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import heroImg from '../assets/hero.png'
+import { formatCurrency } from '../lib/currency'
 
 function ProductCard({ product, onAddToCart, canAddToCart = true }) {
   const imageSrc = product.image || product.imageUrl || heroImg
@@ -23,7 +24,7 @@ function ProductCard({ product, onAddToCart, canAddToCart = true }) {
             {product.name}
           </h3>
           <p className="text-lg font-semibold text-slate-700">
-            ${Number(product.price).toFixed(2)}
+            {formatCurrency(product.price)}
           </p>
           <p className="text-sm text-slate-500">
             {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}

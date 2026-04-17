@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import api from '../lib/api'
+import { formatCurrency } from '../lib/currency'
 
 const sampleImageUrls = [
   'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80',
@@ -243,7 +244,7 @@ function Admin() {
                 htmlFor="product-price"
                 className="mb-2 block text-sm font-medium text-slate-700"
               >
-                Price
+                Price (INR)
               </label>
               <input
                 id="product-price"
@@ -387,7 +388,7 @@ function Admin() {
                   value={editFormData.price}
                   onChange={handleEditChange}
                   required
-                  placeholder="Price"
+                  placeholder="Price in INR"
                   className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 outline-none transition focus:border-slate-900"
                 />
 
@@ -460,7 +461,7 @@ function Admin() {
                         {product.name}
                       </h3>
                       <p className="mt-1 text-sm font-medium text-slate-600">
-                        ${Number(product.price).toFixed(2)}
+                        {formatCurrency(product.price)}
                       </p>
                       <p className="mt-2 truncate text-xs text-slate-500">
                         {product.image}
